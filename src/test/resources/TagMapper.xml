@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cakemonster.demo.dao.TagMapper">
+    <resultMap id="BaseResultMap" type="com.cakemonster.demo.model.Tag">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="question_id" jdbcType="VARCHAR" property="questionId"/>
+        <result column="tag_name" jdbcType="VARCHAR" property="tagName"/>
+        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , question_id, tag_name, gmt_created, gmt_modified
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tag
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectTagsByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tag where id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="findTagsInList" parameterType="list" resultType="com.cakemonster.demo.model.Tag">
+        select *
+        from tag
+        where id in (#{list[0]}, #{list[1]}, #{list[2]})
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from tag
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.cakemonster.demo.model.Tag">
+        insert into tag (id, question_id, tag_name,
+                         gmt_created, gmt_modified)
+        values (#{id,jdbcType=VARCHAR}, #{questionId,jdbcType=VARCHAR}, #{tagName,jdbcType=VARCHAR},
+                now(), now())
+    </insert>
+    <insert id="insertAllTags">
+        insert into tag (id, question_id, tag_name,
+        gmt_created, gmt_modified)
+        values
+        <foreach collection="tags" item="tag" separator=",">
+            (#{tag.id,jdbcType=VARCHAR}, #{tag.questionId,jdbcType=VARCHAR}, #{tag.tagName,jdbcType=VARCHAR},
+            now(), now())
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cakemonster.demo.model.Tag">
+        update tag
+        <set>
+            <if test="questionId != null">
+                question_id = #{questionId,jdbcType=VARCHAR},
+            </if>
+            <if test="tagName != null">
+                tag_name = #{tagName,jdbcType=VARCHAR},
+            </if>
+            gmt_modified = now(),
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>
