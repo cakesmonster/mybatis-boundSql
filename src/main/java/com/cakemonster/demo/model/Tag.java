@@ -1,5 +1,9 @@
 package com.cakemonster.demo.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 /**
@@ -8,6 +12,9 @@ import java.util.Date;
  * @author Zqh
  * @date 2020/4/15
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Tag {
 
     /**
@@ -35,55 +42,4 @@ public class Tag {
      */
     private Date gmtModified;
 
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(String questionId) {
-        this.questionId = questionId;
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
-    }
-
-    public Date getGmtCreated() {
-        return gmtCreated;
-    }
-
-    public void setGmtCreated(Date gmtCreated) {
-        this.gmtCreated = gmtCreated;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
-    @Override
-    public String toString() {
-        return "Tag{" +
-            "id='" + id + '\'' +
-            ", questionId='" + questionId + '\'' +
-            ", tagName='" + tagName + '\'' +
-            ", gmtCreated=" + gmtCreated +
-            ", gmtModified=" + gmtModified +
-            '}';
-    }
 }

@@ -49,7 +49,7 @@
         insert into tag (id, question_id, tag_name,
         gmt_created, gmt_modified)
         values
-        <foreach collection="tags" item="tag" separator=",">
+        <foreach collection="list" open="(" item="tag" close=")" separator=",">
             (#{tag.id,jdbcType=VARCHAR}, #{tag.questionId,jdbcType=VARCHAR}, #{tag.tagName,jdbcType=VARCHAR},
             now(), now())
         </foreach>
